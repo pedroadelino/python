@@ -1,5 +1,6 @@
 import sys,time,os
 from random import randint
+from datetime import datetime
 # Code Nation
 # Green Team Game
 
@@ -7,11 +8,13 @@ from random import randint
 game_name = "Destiny"
 player_name = ""
 total_points = 0
+high_score = 0
 play = True # if this variable changes to False, stop our main loop
 death_reason = ""
 
 # lists
 path_options = []
+#scores = []
 
 # debug functions
 def print_path_options():
@@ -438,15 +441,6 @@ def first_purple3():
                     There were {} guards!\n\n""".format(roll))
                     #You were recaptured and returned to your cell\n\n
                     sprint("\nYou were recaptured and returned to your cell\n")
-                    #sprint ("""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-                    #   _____                        ____                 
-                    # / ____|                       / __ \                
-                    #| |  __  __ _ _ __ ___   ___  | |  | |_   _____ _ __ 
-                    #| | |_ |/ _` | '_ ` _ \ / _ \ | |  | \ \ / / _ \ '__|
-                    #| |__| | (_| | | | | | |  __/ | |__| |\ V /  __/ |   
-                    # \_____|\__,_|_| |_| |_|\___|  \____/  \_/ \___|_|   
-                    #                                                     
-                    #                                                     """"""""""""""""""""""""""""""""""""""""""""""""""""")
                     game_over()
                 elif choice.lower() == 'no':
                     total_points += 50
@@ -496,18 +490,9 @@ def first_purple():
     else:   # Roll 5-9 you're captured and returned to cell
         # Return to beginning 
         sprint('\nThere were {} guards!\nYou were captured and returned to your cell\n'.format(roll))
-        #        sprint ("""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-        #   _____                        ____                 
-        # / ____|                       / __ \                
-        #| |  __  __ _ _ __ ___   ___  | |  | |_   _____ _ __ 
-        #| | |_ |/ _` | '_ ` _ \ / _ \ | |  | \ \ / / _ \ '__|
-        #| |__| | (_| | | | | | |  __/ | |__| |\ V /  __/ |   
-        # \_____|\__,_|_| |_| |_|\___|  \____/  \_/ \___|_|   
-        #                                                     
-        #                                                     """"""""""""""""""""""""""""""""""""""""""""""""""""")
-        #        total_points = 0
+        #total_points = 0
         #death_reason = "\nYou were captured and returned to your cell\n"
-        #        quit()
+        #quit()
         game_over()
 
 def second_pink():
@@ -806,7 +791,7 @@ def fo_11():
 #Keira_section
 
 def congratulations():
-    global play,player_name,total_points # access global variables
+    global play,player_name,total_points,high_score,time_start # access global variables
     sprint("╔═══╗─────────────╔╗───╔╗───╔╗")
     sprint("║╔═╗║────────────╔╝╚╗──║║──╔╝╚╗")
     sprint("║║─╚╬══╦═╗╔══╦═╦═╩╗╔╬╗╔╣║╔═╩╗╔╬╦══╦═╗╔══╗")
@@ -816,6 +801,11 @@ def congratulations():
     sprint("──────────╔═╝║")
     sprint("──────────╚══╝")
     sprint("\nTotal points : {}".format(total_points))
+    if total_points > high_score:
+        sprint("NEW HIGH SCORE!")
+        high_score = total_points
+    time_end = datetime.now()
+    print("Elapsed time :", time_end - time_start)
     sprint("\n\033[1;33mWould you like to play again?\033[0;37;40m (yes/no)\n")
     reply_ok = False
     while reply_ok == False: # loop until we have a valid reply
@@ -889,6 +879,7 @@ def end_game():
 cls() # first clear the screen
 print_welcome()
 while play == True: # loop until play == False
+    time_start = datetime.now()
     get_player_name()
     ready_to_play()
     first_pink()
